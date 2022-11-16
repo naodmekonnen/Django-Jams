@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Song
+from .models import *
 
 class ArtistSerializer(serializers.ModelSerializer):
     class Meta:
@@ -30,3 +30,8 @@ class SongSerializer(serializers.ModelSerializer):
     class Meta:
         model = Song
         fields = '__all__'
+
+    def create(self, validated_data):
+        artist = validated_data.pop('artist')
+        artist_instance = Artist.objects.get(artist=title['title'])
+        song = Song.objects.all(**validated_data)

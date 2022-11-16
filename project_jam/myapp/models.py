@@ -28,6 +28,8 @@ class Song(models.Model):
     album_id = models.ForeignKey(Album, on_delete=models.PROTECT)
     genre_id = models.ForeignKey(Genre, on_delete=models.PROTECT)
     playlist = models.ManyToManyField(Playlist)
+    def __str__ (self):
+        return self.title
 
 
 
