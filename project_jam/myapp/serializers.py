@@ -26,6 +26,7 @@ class SongSerializer(serializers.ModelSerializer):
     album = AlbumSerializer(many=True)
     artist = ArtistSerializer(many=True)
     playlist = PlaylistSerializer(many=True)
+    
     class Meta:
         model = Song
         fields = '__all__'
