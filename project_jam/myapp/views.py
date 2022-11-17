@@ -33,22 +33,32 @@ class SongViewSet(ModelViewSet):
     serializer_class = SongSerializer
     http_method_names = ['get','post']
 
+    
     def create(self, request, *args, **kwargs):
         song_data = request.data
+        # album_data = request.data
+        # genre_data = genre.data
 
         new_song = Song.objects.create(
             title = song_data['title'],
             duration = song_data['duration'],
             plays = song_data['plays'],
-            artist_id = song_data['artist_id'],
-            album_id = song_data['album_id'],
-            genre_id = song_data['genre_id'],
-            playlist = song_data['playlist']
-
-        )
+         )
 
         new_song.save()
+        
+        for playlist in song_data['playlist']:
+            playlist_obj = Playlist.objects.get(name=playlist['name'],)
+            new_song.playlist.add(playlist_obj)
 
+        for artist in song_data['artist']:
+            artist_obj = Artist.objects.get(name=artist['artist'])
+            new_song.artist.add(artist_obj)
+
+        for album in song_data['album']:
+            album_obj = Album.objects.get(name=album['album'])
+            new_song.album.add(album_obj)
+        
         serializer = SongSerializer(new_song)
 
         return Response(serializer.data)
@@ -56,5 +66,3 @@ class SongViewSet(ModelViewSet):
 
 
  
-
-
