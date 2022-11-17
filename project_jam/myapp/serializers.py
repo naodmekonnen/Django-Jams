@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Song
+from .models import *
 
 class ArtistSerializer(serializers.ModelSerializer):
     class Meta:
@@ -22,10 +22,42 @@ class PlaylistSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class SongSerializer(serializers.ModelSerializer):
-    genre = GenreSerializer()
-    album = AlbumSerializer(many=True)
-    artist = ArtistSerializer(many=True)
-    playlist = PlaylistSerializer(many=True)
+    album = AlbumSerializer(many=True, required=False)
+    artist = ArtistSerializer(many=True, required=False)
+    playlist = PlaylistSerializer(many=True, required=False)
+    
     class Meta:
         model = Song
-        fields = '__all__'
+        fields = ('title',
+                  'duration',
+                  'plays',
+                  'artist',
+                  'album',
+                  'playlist'
+        )
+
+     
+
+    # def create(self, validated_data):
+    #     song = Song.objects.create(**validated_data, artist=artist_instance)
+    #     artists = validated_data.pop('artist')
+    #     # genres = validated_data.pop('genre')
+
+    #     # artist_instance, created = Artist.objects.create(artist=name['name'])
+    #     # genre_instance, created = Genre.objects.create(genre=name['name'])
+
+
+    #     for artist in artists:
+    #         artist_instance, created = Artist.objects.get_or_create(name=artist['name'])
+    #         song = Song.objects.add(artist_instance)
+    
+    #     # for genre in genres:
+    #     #     genre_instance, created = Genre.objects.get_or_create(genre=name['name'])
+    #     #     song = Song.objects.add(genre_instance)
+
+    #     return song
+        
+        
+        
+        
+     
