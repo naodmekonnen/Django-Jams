@@ -39,27 +39,31 @@ class SongViewSet(ModelViewSet):
         # album_data = request.data
         # genre_data = genre.data
 
-        new_song = Song.objects.create(
-            title = song_data['title'],
-            duration = song_data['duration'],
-            plays = song_data['plays'],
-         )
+        playlists = request.data.pop('playlist')
+        artists = request.data.pop('artist')
+        albums = request.data.pop('album')
 
-        new_song.save()
+        # new_song = Song.objects.create(
+        #     title = song_data['title'],
+        #     duration = song_data['duration'],
+        #     plays = song_data['plays'],
+        #  )
+        serializer = SongSerializer(data=song_data)
+        serializer.is_valid(raise_exception=True)
+        new_song = serializer.save()
         
-        for playlist in song_data['playlist']:
-            playlist_obj = Playlist.objects.get(name=playlist['name'],)
+        for playlist in playlists:
+            playlist_obj, created = Playlist.objects.get_or_create(name=playlist['name'])
             new_song.playlist.add(playlist_obj)
 
-        for artist in song_data['artist']:
-            artist_obj = Artist.objects.get(name=artist['artist'])
+        for artist in artists:
+            artist_obj, created = Artist.objects.get_or_create(name=artist['name'])
             new_song.artist.add(artist_obj)
 
-        for album in song_data['album']:
-            album_obj = Album.objects.get(name=album['album'])
+        for album in albums:
+            album_obj, created = Album.objects.get_or_create(title=album['name'])
             new_song.album.add(album_obj)
         
-        serializer = SongSerializer(new_song)
 
         return Response(serializer.data)
 
