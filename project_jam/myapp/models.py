@@ -26,7 +26,7 @@ class Song(models.Model):
     plays = models.IntegerField(default=0)
     # artist_id = models.ForeignKey(Artist, on_delete=models.PROTECT, null=True)
     # album_id = models.ForeignKey(Album, on_delete=models.PROTECT,null=True)
-    genre_id = models.ForeignKey(Genre, on_delete=models.PROTECT,null=True)
+    genre = models.ForeignKey(Genre, on_delete=models.PROTECT,null=True)
     artist = models.ManyToManyField(Artist)
     album = models.ManyToManyField(Album)
     playlist = models.ManyToManyField(Playlist)
