@@ -22,9 +22,9 @@ class PlaylistSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class SongSerializer(serializers.ModelSerializer):
-    album = AlbumSerializer(many=True, required=False)
-    artist = ArtistSerializer(many=True, required=False)
-    playlist = PlaylistSerializer(many=True, required=False)
+    # album = AlbumSerializer(many=True, required=False)
+    # artist = ArtistSerializer(many=True, required=False)
+    # playlist = PlaylistSerializer(many=True, required=False)
     
     class Meta:
         model = Song
@@ -37,7 +37,27 @@ class SongSerializer(serializers.ModelSerializer):
         )
 
      
-
+class VoodooSerializer(serializers.ModelSerializer):
+    genre = GenreSerializer()
+    album = AlbumSerializer(many=True)
+    artist = ArtistSerializer(many=True)
+    playlist = PlaylistSerializer(many=True)
+    
+    class Meta:
+        model = Song
+        fields = '__all__'
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     # def create(self, validated_data):
     #     song = Song.objects.create(**validated_data, artist=artist_instance)
     #     artists = validated_data.pop('artist')
